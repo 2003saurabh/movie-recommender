@@ -16,6 +16,10 @@ This project is a movie recommendation system developed using Python, Streamlit,
 - **Personalized Recommendations**: Utilizes cosine similarity for collaborative filtering, offering tailored movie suggestions based on user input.
 - **Data Processing**: Processes and analyzes the TMDB dataset to extract relevant movie information.
 
+## ScreenShot
+![Screenshot 2024-10-22 210257](https://github.com/user-attachments/assets/217cd8ce-926e-41a1-bea7-14f06dcffdd6)
+
+
 ## Installation
 1. Clone the repository:
    ```bash
