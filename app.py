@@ -8,7 +8,7 @@ st.title("Movie Recommender System")
 
 def fetch_movie_details(movie_id):
     response = requests.get(
-        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=db4ea80d12abfa38f3ac579163d4ada7'
+        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=db4ea80d12abfa38f3ac579163d4ada6'
     )
     data = response.json()
     
