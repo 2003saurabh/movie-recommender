@@ -52,12 +52,17 @@ if st.button('Recommend'):
     names, posters, links = recommend(Selected_Movie_Name)
     col1, col2, col3, col4, col5 = st.columns(5, gap="medium")
     
-    # Helper function to display name with a clickable link
+    # Helper function to display clickable image with a link
     def display_movie(col, name, poster, link):
         with col:
-            # Use markdown for a clickable link
-            st.markdown(f"[{name}]({link})", unsafe_allow_html=True)
-            st.image(poster)
+            # HTML for a clickable image
+            clickable_image = f"""
+            <a href="{link}" target="_blank">
+                <img src="{poster}" alt="{name}" style="width:100%; border-radius:10px;">
+            </a>
+            """
+            st.markdown(clickable_image, unsafe_allow_html=True)
+            st.text(name)  # Movie title below the image
     
     # Display recommendations in columns
     display_movie(col1, names[0], posters[0], links[0])
@@ -65,4 +70,5 @@ if st.button('Recommend'):
     display_movie(col3, names[2], posters[2], links[2])
     display_movie(col4, names[3], posters[3], links[3])
     display_movie(col5, names[4], posters[4], links[4])
+
 
