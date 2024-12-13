@@ -7,7 +7,7 @@ import streamlit as st
 st.title("Movie Recommender System")
 
 def fetch_poster(movie_id):
-    response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key=db4ea80d12abfa38f3ac579163d4ada7'.format(movie_id))
+    response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key=db4ea80d12abfa38f3ac579163d4ada6'.format(movie_id))
     data=response.json()
     return "https://image.tmdb.org/t/p/w500" + data['poster_path']
 
