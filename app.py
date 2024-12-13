@@ -6,23 +6,38 @@ import streamlit as st
 
 st.title("Movie Recommender System")
 
-def fetch_poster(movie_id):
-    response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key=db4ea80d12abfa38f3ac579163d4ada6'.format(movie_id))
-    data=response.json()
-    return "https://image.tmdb.org/t/p/w500" + data['poster_path']
+def fetch_movie_details(movie_id):
+    response = requests.get(
+        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=db4ea80d12abfa38f3ac579163d4ada7'
+    )
+    data = response.json()
+    
+    # Extract poster URL and movie link
+    poster_url = "https://image.tmdb.org/t/p/w500" + data.get('poster_path', '')
+    movie_link = f"https://www.themoviedb.org/movie/{movie_id}"
+    
+    return poster_url, movie_link
+
 
 def recommend(movie):
     movie_index = movies[movies_lists == movie].index[0]
     distances = similarity[movie_index]
     movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
-    recommended_movies=[]
-    recommended_movies_posters=[]
+    
+    recommended_movies = []
+    recommended_movies_posters = []
+    recommended_movies_links = []
+
     for i in movies_list:
-        movie_id=movies.iloc[i[0]].movie_id
+        movie_id = movies.iloc[i[0]].movie_id
         recommended_movies.append(movies.iloc[i[0]].title)
-        # fetch poster from API
-        recommended_movies_posters.append(fetch_poster(movie_id))
-    return recommended_movies,recommended_movies_posters
+        
+        # Fetch poster and movie link in a single call
+        poster_url, movie_link = fetch_movie_details(movie_id)
+        recommended_movies_posters.append(poster_url)
+        recommended_movies_links.append(movie_link)
+    
+    return recommended_movies, recommended_movies_posters, recommended_movies_links
 
 movies=pickle.load(open('movies.pkl','rb'))
 movies_lists=movies['title'].values
@@ -34,21 +49,20 @@ Selected_Movie_Name = st.selectbox(
 
 
 if st.button('Recommend'):
-    names,posters = recommend(Selected_Movie_Name)
-    col1, col2, col3, col4, col5 = st.columns(5,gap="medium")
-    with col1:
-        st.text(names[0])
-        st.image(posters[0])
-    with col2:
-        st.text(names[1])
-        st.image(posters[1])
+    names, posters, links = recommend(Selected_Movie_Name)
+    col1, col2, col3, col4, col5 = st.columns(5, gap="medium")
+    
+    # Helper function to display name with a clickable link
+    def display_movie(col, name, poster, link):
+        with col:
+            # Use markdown for a clickable link
+            st.markdown(f"[{name}]({link})", unsafe_allow_html=True)
+            st.image(poster)
+    
+    # Display recommendations in columns
+    display_movie(col1, names[0], posters[0], links[0])
+    display_movie(col2, names[1], posters[1], links[1])
+    display_movie(col3, names[2], posters[2], links[2])
+    display_movie(col4, names[3], posters[3], links[3])
+    display_movie(col5, names[4], posters[4], links[4])
 
-    with col3:
-        st.text(names[2])
-        st.image(posters[2])
-    with col4:
-        st.text(names[3])
-        st.image(posters[3])
-    with col5:
-        st.text(names[4])
-        st.image(posters[4])
