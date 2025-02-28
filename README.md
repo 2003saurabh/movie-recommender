@@ -1,5 +1,5 @@
 # Movie Recommendation System
- see demo: http://18.233.147.185:8501/
+ see demo: http://3.218.126.6:8501/
 ## Overview
 This project is a movie recommendation system developed using Python, Streamlit, and the TMDB dataset. The system analyzes user preferences to provide personalized movie suggestions, enhancing the overall viewing experience.
 
